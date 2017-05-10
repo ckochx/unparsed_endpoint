@@ -11,6 +11,7 @@ defmodule UnparsedEndpoint.EventController do
 
   def create(conn, %{"event" => event_params}) do
     Logger.warn event_params
+    Logger.warn inspect(Plug.Conn.req_headers, "content-type")
     changeset = Event.changeset(%Event{}, event_params)
 
     case Repo.insert(changeset) do
@@ -32,6 +33,8 @@ defmodule UnparsedEndpoint.EventController do
   end
 
   def update(conn, %{"id" => id, "event" => event_params}) do
+    Logger.warn id
+    Logger.warn event_params
     event = Repo.get!(Event, id)
     changeset = Event.changeset(event, event_params)
 
